@@ -64,6 +64,8 @@ public class PostServiceImpl implements IPostService {
         postDetailDto.setId(post.getId());
         postDetailDto.setTitle(post.getTitle());
         postDetailDto.setContent(post.getContent());
+        postDetailDto.setCreatedAt(post.getCreatedAt());
+        postDetailDto.setUpdatedAt(post.getUpdatedAt());
         postDetailDto.setCategory(category.getName());
         postDetailDto.setTags(TagNamelist);
         return postDetailDto;
