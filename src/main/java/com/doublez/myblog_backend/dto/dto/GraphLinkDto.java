@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GraphLinkDto {
-    private String source; // 源节点 id (组合 slug)
-    private String target; // 目标节点 id (组合 slug)
+    private Integer source;
+    private Integer target;
 }

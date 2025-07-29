@@ -14,3 +14,5 @@ mybatis-plus:
     # 日志打印
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
+server:
+  port: 16160

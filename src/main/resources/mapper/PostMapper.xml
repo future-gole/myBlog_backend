@@ -8,7 +8,7 @@
             p.title,
             p.published_at as date,
             c.name as category,
-            p.featuredImageUrl
+            p.image_url
         FROM
             posts p
             JOIN

@@ -18,10 +18,10 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
-//    @GetMapping
-//    public List<String> getAllCategories() {
-//        return categoryService.list().stream()
-//                .map(Category::getName)
-//                .collect(Collectors.toList());
-//    }
+    @GetMapping
+    public List<String> getAllCategories() {
+        return categoryService.list().stream()
+                .map(Category::getName)
+                .collect(Collectors.toList());
+    }
 }

@@ -40,6 +40,7 @@ public class PostServiceImpl implements IPostService {
     private ILinkService linkService;
 
 
+
     @Override
     public List<PostSimpleDto> getAllPosts() {
         return postMapper.selectAllPostSimpleDto();
@@ -56,12 +57,15 @@ public class PostServiceImpl implements IPostService {
             throw new RuntimeException("分类未找到");
         }
         List<PostTag> postTags = postTagMapper.selectList(new LambdaQueryWrapper<PostTag>().eq(PostTag::getPostId, post.getId()));
+        List<Integer> collect = postTags.stream().map(PostTag::getTagId).toList();
+        List<Tag> tags = tagMapper.selectList(new LambdaQueryWrapper<Tag>().in(Tag::getId, collect));
+        List<String> TagNamelist = tags.stream().map(Tag::getName).toList();
         PostDetailDto postDetailDto = new PostDetailDto();
         postDetailDto.setId(post.getId());
         postDetailDto.setTitle(post.getTitle());
         postDetailDto.setContent(post.getContent());
         postDetailDto.setCategory(category.getName());
-        postDetailDto.setTags(postTags.stream().map(PostTag::toString).collect(Collectors.toList()));
+        postDetailDto.setTags(TagNamelist);
         return postDetailDto;
     }
 

@@ -52,13 +52,14 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper,Link> implements ILi
         removeById(postId);
         //查询文章链接
         List<String> titles = extractLinks(text);
+        if(titles.isEmpty()) return;
         List<Post> postIds = postMapper.selectList(new LambdaQueryWrapper<Post>()
                 .select(Post::getId)
-                .in(!titles.isEmpty(),Post::getTitle, titles));
+                .in(Post::getTitle, titles));
         List<Link> linkList = new ArrayList<>();
         for(Post post : postIds){
             Link link = new Link();
-            link.setSource(post.getId());
+            link.setSource(postId);
             link.setTarget(post.getId());
             linkList.add(link);
         }
