@@ -73,16 +73,16 @@ public class PostServiceImpl implements IPostService {
         Long count = postMapper.selectCount(new LambdaQueryWrapper<Post>()
                 .eq(Post::getTitle, request.getTitle())
                 .eq(Post::getCategoryId, category.getId()));
-        if (count > 0) {
-            throw new RuntimeException("在分类 '" + category.getName() + "' 下已存在同名文章");
-        }
-
         Post post = new Post();
         post.setTitle(request.getTitle());
         post.setContent(request.getContent());
         post.setCategoryId(category.getId());
         post.setCreatedAt(LocalDateTime.now());
-        postMapper.insert(post);
+        if(count > 0) {
+            postMapper.updateById(post);
+        }else {
+            postMapper.insert(post);
+        }
         //处理标签
         handleTags(request.getTagNames(), post.getId());
         //处理链接
@@ -105,15 +105,16 @@ public class PostServiceImpl implements IPostService {
     private void handleTags(List<String> tagNames, Integer postId) {
         if (tagNames == null || tagNames.isEmpty()) return;
         for (String tagName : tagNames) {
-            QueryWrapper<Tag> tagQuery = new QueryWrapper<>();
-            tagQuery.eq("name", tagName);
             Tag tag = tagMapper.selectOne(new LambdaQueryWrapper<Tag>()
                         .eq(Tag::getName, tagName));
+            //判断tag是否存在
+            //不存在创建
             if (tag == null) {
                 tag = new Tag();
                 tag.setName(tagName);
                 tagMapper.insert(tag);
             }
+            //存在直接插入
             PostTag postTag = new PostTag();
             postTag.setPostId(postId);
             postTag.setTagId(tag.getId());
