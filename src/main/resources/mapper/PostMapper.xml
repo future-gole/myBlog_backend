@@ -1,0 +1,21 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.doublez.myblog_backend.mapper.PostMapper">
+
+
+    <select id="selectAllPostSimpleDto" resultType="com.doublez.myblog_backend.dto.response.PostSimpleDto">
+        SELECT
+            p.id ,
+            p.title,
+            p.published_at as date,
+            c.name as category,
+            p.featuredImageUrl
+        FROM
+            posts p
+            JOIN
+            categories c ON p.category_id = c.id
+        ORDER BY
+            p.published_at DESC
+    </select>
+
+
+</mapper>

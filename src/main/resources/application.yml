@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: myBlog_backend
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/myBlog? characterEncoding=utf8&useSSL=false
+    username: root
+    password: 161011zz
+file:
+  upload-dir: G:/image
+mybatis-plus:
+  # Mapper XML 文件位置
+  mapper-locations: classpath:/mapper/**/*.xml
+  configuration:
+    # 日志打印
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
