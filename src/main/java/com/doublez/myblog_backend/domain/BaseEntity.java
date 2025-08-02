@@ -1,4 +1,4 @@
-package com.doublez.myblog_backend.dto;
+package com.doublez.myblog_backend.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

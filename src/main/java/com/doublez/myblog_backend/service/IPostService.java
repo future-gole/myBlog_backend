@@ -1,16 +1,17 @@
 package com.doublez.myblog_backend.service;
 
-import com.doublez.myblog_backend.dto.response.PostDetailDto;
-import com.doublez.myblog_backend.dto.response.PostSimpleDto;
-import com.doublez.myblog_backend.dto.request.PostRequestDto;
+
+import com.doublez.myblog_backend.domain.dto.PostRequestDto;
+import com.doublez.myblog_backend.domain.vo.PostDetailVO;
+import com.doublez.myblog_backend.domain.vo.PostSimpleVO;
 
 import java.util.List;
 
 public interface IPostService {
-    List<PostSimpleDto> getAllPosts();
+    List<PostSimpleVO> getAllPosts();
 
-    PostDetailDto getPostById(Integer id);
+    PostDetailVO getPostById(Integer id);
 
-    PostDetailDto createPost(PostRequestDto request);
+    PostDetailVO createPost(PostRequestDto request);
 
 }

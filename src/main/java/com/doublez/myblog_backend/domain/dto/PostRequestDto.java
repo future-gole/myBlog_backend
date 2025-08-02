@@ -1,4 +1,4 @@
-package com.doublez.myblog_backend.dto.request;
+package com.doublez.myblog_backend.domain.dto;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class PostRequestDto {
     private String title;
-    private String categoryName;
+    private String category;
     private List<String> tagNames;
     private String featuredImageId;
     private String content;

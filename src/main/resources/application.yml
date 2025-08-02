@@ -16,3 +16,5 @@ mybatis-plus:
     map-underscore-to-camel-case: true
 server:
   port: 16160
+jwt:
+  secret: 01ynBC2wTSP2EwVQ4rQ1yHACA2sDCJtS1s4l5M8ePN8or5osnig4XAasNVo8uT+uGANmdHpPYFld5pIk47Hndg==

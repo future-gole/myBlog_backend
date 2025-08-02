@@ -1,11 +1,11 @@
-package com.doublez.myblog_backend.dto.response;
+package com.doublez.myblog_backend.domain.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class FileUploadResponse {
+public class FileUploadVO {
     private Integer imageId;
     private String imageUrl;
 }

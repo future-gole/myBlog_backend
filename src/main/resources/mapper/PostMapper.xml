@@ -2,7 +2,7 @@
 <mapper namespace="com.doublez.myblog_backend.mapper.PostMapper">
 
 
-    <select id="selectAllPostSimpleDto" resultType="com.doublez.myblog_backend.dto.response.PostSimpleDto">
+    <select id="selectAllPostSimpleDto" resultType="com.doublez.myblog_backend.domain.vo.PostSimpleVO">
         SELECT
             p.id ,
             p.title,

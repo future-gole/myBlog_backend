@@ -1,6 +1,6 @@
 package com.doublez.myblog_backend.controller;
 
-import com.doublez.myblog_backend.dto.dto.GraphDto;
+import com.doublez.myblog_backend.domain.dto.GraphDto;
 import com.doublez.myblog_backend.service.IGraphService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

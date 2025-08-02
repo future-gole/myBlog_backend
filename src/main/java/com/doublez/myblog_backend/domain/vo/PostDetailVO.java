@@ -1,12 +1,12 @@
-package com.doublez.myblog_backend.dto.response;
+package com.doublez.myblog_backend.domain.vo;
 
-import com.doublez.myblog_backend.dto.BaseEntity;
+import com.doublez.myblog_backend.domain.BaseEntity;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class PostDetailDto extends BaseEntity {
+public class PostDetailVO extends BaseEntity {
     private Integer id;
     private String title;
     private String content;

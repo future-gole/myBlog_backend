@@ -3,7 +3,7 @@ package com.doublez.myblog_backend.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.doublez.myblog_backend.dto.BaseEntity;
+import com.doublez.myblog_backend.domain.BaseEntity;
 import lombok.Data;
 
 @Data

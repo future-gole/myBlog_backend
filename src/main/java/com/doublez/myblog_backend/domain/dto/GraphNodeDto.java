@@ -1,4 +1,4 @@
-package com.doublez.myblog_backend.dto.dto;
+package com.doublez.myblog_backend.domain.dto;
 
 import lombok.Data;
 

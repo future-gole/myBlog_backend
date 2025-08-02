@@ -1,9 +1,9 @@
-package com.doublez.myblog_backend.dto.response;
+package com.doublez.myblog_backend.domain.vo;
 
 import lombok.Data;
 
 @Data
-public class PostSimpleDto {
+public class PostSimpleVO {
     private Integer id;
     private String title;
     private String date;

@@ -1,25 +1,20 @@
 package com.doublez.myblog_backend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.doublez.myblog_backend.dto.response.PostDetailDto;
-import com.doublez.myblog_backend.dto.response.PostSimpleDto;
-import com.doublez.myblog_backend.dto.request.PostRequestDto;
+import com.doublez.myblog_backend.domain.vo.PostDetailVO;
+import com.doublez.myblog_backend.domain.dto.PostRequestDto;
+import com.doublez.myblog_backend.domain.vo.PostSimpleVO;
 import com.doublez.myblog_backend.entity.*;
 import com.doublez.myblog_backend.mapper.*;
 import com.doublez.myblog_backend.service.ILinkService;
 import com.doublez.myblog_backend.service.IPostService;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,12 +37,12 @@ public class PostServiceImpl implements IPostService {
 
 
     @Override
-    public List<PostSimpleDto> getAllPosts() {
+    public List<PostSimpleVO> getAllPosts() {
         return postMapper.selectAllPostSimpleDto();
     }
 
     @Override
-    public PostDetailDto getPostById(Integer id) {
+    public PostDetailVO getPostById(Integer id) {
         Post post = postMapper.selectById(id);
         if (post == null) {
             throw new RuntimeException("文章未找到");
@@ -56,25 +51,30 @@ public class PostServiceImpl implements IPostService {
         if(category == null) {
             throw new RuntimeException("分类未找到");
         }
+        PostDetailVO postDetailDto = new PostDetailVO();
+
         List<PostTag> postTags = postTagMapper.selectList(new LambdaQueryWrapper<PostTag>().eq(PostTag::getPostId, post.getId()));
-        List<Integer> collect = postTags.stream().map(PostTag::getTagId).toList();
-        List<Tag> tags = tagMapper.selectList(new LambdaQueryWrapper<Tag>().in(Tag::getId, collect));
-        List<String> TagNamelist = tags.stream().map(Tag::getName).toList();
-        PostDetailDto postDetailDto = new PostDetailDto();
+        if(postTags != null && !postTags.isEmpty()) {
+            List<Integer> collect = postTags.stream().map(PostTag::getTagId).toList();
+            List<Tag> tags = tagMapper.selectList(new LambdaQueryWrapper<Tag>().in(Tag::getId, collect));
+            List<String> TagNamelist = tags.stream().map(Tag::getName).toList();
+            postDetailDto.setTags(TagNamelist);
+        }
+
         postDetailDto.setId(post.getId());
         postDetailDto.setTitle(post.getTitle());
         postDetailDto.setContent(post.getContent());
         postDetailDto.setCreatedAt(post.getCreatedAt());
         postDetailDto.setUpdatedAt(post.getUpdatedAt());
         postDetailDto.setCategory(category.getName());
-        postDetailDto.setTags(TagNamelist);
+
         return postDetailDto;
     }
 
     @Override
     @Transactional
-    public PostDetailDto createPost(PostRequestDto request) {
-        Category category = handleCategory(request.getCategoryName());
+    public PostDetailVO createPost(PostRequestDto request) {
+        Category category = handleCategory(request.getCategory());
 
         Long count = postMapper.selectCount(new LambdaQueryWrapper<Post>()
                 .eq(Post::getTitle, request.getTitle())

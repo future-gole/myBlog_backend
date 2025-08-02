@@ -1,4 +1,4 @@
-package com.doublez.myblog_backend.dto.response;
+package com.doublez.myblog_backend.domain.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthResponse {
+public class AuthVO {
     private String token;
 }
