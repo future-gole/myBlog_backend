@@ -19,7 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private TokenInterceptor tokenInterceptor;
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(uploadDir + "**")
+        registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:" + uploadDir);
     }
 

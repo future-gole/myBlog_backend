@@ -2,11 +2,11 @@ spring:
   application:
     name: myBlog_backend
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/myBlog? characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/myBlog?characterEncoding=utf8&useSSL=false
     username: root
     password: 161011zz
 file:
-  upload-dir: G:/image
+  upload-dir: G:/image/
 mybatis-plus:
   # Mapper XML 文件位置
   mapper-locations: classpath:/mapper/**/*.xml

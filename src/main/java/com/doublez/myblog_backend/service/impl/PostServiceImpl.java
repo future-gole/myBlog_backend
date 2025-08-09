@@ -76,25 +76,29 @@ public class PostServiceImpl implements IPostService {
     public PostDetailVO createPost(PostRequestDto request) {
         Category category = handleCategory(request.getCategory());
 
-        Long count = postMapper.selectCount(new LambdaQueryWrapper<Post>()
+        Post oldPost = postMapper.selectOne(new LambdaQueryWrapper<Post>()
                 .eq(Post::getTitle, request.getTitle())
                 .eq(Post::getCategoryId, category.getId()));
-        Post post = new Post();
-        post.setTitle(request.getTitle());
-        post.setContent(request.getContent());
-        post.setCategoryId(category.getId());
-        post.setCreatedAt(LocalDateTime.now());
-        if(count > 0) {
-            postMapper.updateById(post);
-        }else {
-            postMapper.insert(post);
+        if(oldPost == null) {
+            oldPost = new Post();
+            oldPost.setTitle(request.getTitle());
+            oldPost.setContent(request.getContent());
+            oldPost.setCategoryId(category.getId());
+            oldPost.setCreatedAt(LocalDateTime.now());
+            postMapper.insert(oldPost);
+        } else {
+            oldPost.setTitle(request.getTitle());
+            oldPost.setContent(request.getContent());
+            oldPost.setCategoryId(category.getId());
+            oldPost.setCreatedAt(LocalDateTime.now());
+            postMapper.updateById(oldPost);
         }
         //处理标签
-        handleTags(request.getTagNames(), post.getId());
+        handleTags(request.getTagNames(), oldPost.getId());
         //处理链接
-        linkService.extractPost(request.getContent(), post.getId());
+        linkService.extractPost(request.getContent(), oldPost.getId());
 
-        return getPostById(post.getId());
+        return getPostById(oldPost.getId());
     }
 
     private Category handleCategory(String categoryName) {

@@ -45,7 +45,6 @@ public class FileServiceImpl implements IFileService {
             file.transferTo(targetLocation.toFile());
 
             // 返回文件的相对路径或可访问的URL
-
             String relativePath = Paths.get(String.valueOf(articleId), uniqueFileName).toString();
 
             // 统一使用 / 作为路径分隔符
