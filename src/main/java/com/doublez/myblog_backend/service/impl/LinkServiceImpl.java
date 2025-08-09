@@ -2,8 +2,10 @@ package com.doublez.myblog_backend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.doublez.myblog_backend.entity.Category;
 import com.doublez.myblog_backend.entity.Link;
 import com.doublez.myblog_backend.entity.Post;
+import com.doublez.myblog_backend.mapper.CategoryMapper;
 import com.doublez.myblog_backend.mapper.LinkMapper;
 import com.doublez.myblog_backend.mapper.PostMapper;
 import com.doublez.myblog_backend.service.ILinkService;
@@ -14,11 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class LinkServiceImpl extends ServiceImpl<LinkMapper,Link> implements ILinkService {
     @Autowired
     private PostMapper postMapper;
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     private   List<String> extractLinks(String text) {
         // 创建一个列表来存储提取出的链接内容
@@ -51,11 +56,21 @@ public class LinkServiceImpl extends ServiceImpl<LinkMapper,Link> implements ILi
         //删除原本的链接
         removeById(postId);
         //查询文章链接
-        List<String> titles = extractLinks(text);
-        if(titles.isEmpty()) return;
+        List<String> categoryAndTitles = extractLinks(text);
+        if(categoryAndTitles.isEmpty()) return;
+        List<String> categories = new ArrayList<>();
+        List<String> titles = new ArrayList<>();
+        for(String categoryAndTitle : categoryAndTitles){
+            String[] split = categoryAndTitle.split("/");
+            categories.add(split[0]);
+            titles.add(split[1]);
+        }
+        List<Integer> categoriesId = categoryMapper.selectList(new LambdaQueryWrapper<Category>()
+                .in(Category::getName, categories)).stream().map(Category::getId).toList();
         List<Post> postIds = postMapper.selectList(new LambdaQueryWrapper<Post>()
                 .select(Post::getId)
-                .in(Post::getTitle, titles));
+                .in(Post::getTitle, titles)
+                .in(Post::getCategoryId,categoriesId));
         List<Link> linkList = new ArrayList<>();
         for(Post post : postIds){
             Link link = new Link();
